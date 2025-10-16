@@ -11,10 +11,12 @@ import { UserService } from '../user-service';
   styleUrl: './register.css'
 })
 export class RegisterComponent {
-
-  email? : string
-  pwd1? : string
-  pwd2? : string
+  bar: string = '';
+  email: string = '';
+  clientID: string = '';
+  clientSecret: string = '';
+  pwd1: string = '';
+  pwd2: string = '';
 
   constructor(private service : UserService) { }
 
