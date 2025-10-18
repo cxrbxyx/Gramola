@@ -2,19 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = ' http://localhost:8080/users/register';
+  private apiUrl = ' http://localhost:8080/register';
 
   constructor(private http: HttpClient) {}
 
-  register(email : string, pwd1 : string, pwd2 : string) {
+  register(
+    bar: string,
+    email: string,
+    pwd1: string,
+    pwd2: string,
+    clientId: string,
+    clientSecret: string
+  ) {
+    // Añade todos los campos al objeto 'info'
     let info = {
-      email : email,
-      pwd1 : pwd1, 
-      pwd2 : pwd2
-    }
+      bar: bar,
+      email: email,
+      pwd1: pwd1,
+      pwd2: pwd2,
+      clientId: clientId,
+      clientSecret: clientSecret,
+    };
     return this.http.post<any>(this.apiUrl, info);
   }
 }

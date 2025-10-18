@@ -1,3 +1,4 @@
+// gramolabe/src/main/java/com/gramlolabe/controller/UserController.java
 package com.gramlolabe.controller;
 
 import java.util.Map;
@@ -11,24 +12,30 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gramlolabe.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200") // Permite peticiones desde el frontend
+// La URL de CrossOrigin es correcta para desarrollo local
+@CrossOrigin(origins = "http://localhost:4200") 
 public class UserController {
     @Autowired
     private UserService service;
 
-    @PostMapping("/register")
+    @PostMapping("/register") // Esta URL es la correcta
     public String register(@RequestBody Map<String, String> body) {
+        // Lee los campos que SÍ manda el frontend
         String email = body.get("email");
         String bar = body.get("bar");
         String clientId = body.get("clientId");
         String clientSecret = body.get("clientSecret");
-        String gramolaCookie = body.get("gramolaCookie");
-        String pwd = body.get("pwd");
-        String creationTokenId = body.get("creationTokenId");
+        String pwd1 = body.get("pwd1"); // Lee pwd1
+        String pwd2 = body.get("pwd2"); // Lee pwd2
 
-        if (gramolaCookie == null) gramolaCookie = "";
-        if (creationTokenId == null) creationTokenId = "";
+        if (pwd1 == null || !pwd1.equals(pwd2)) {
+            // Deberías devolver un error HTTP 400 o 406
+            return "Las contraseñas no coinciden o están vacías";
+        }
+        String gramolaCookie = ""; 
+        String creationTokenId = "";
 
-        return service.register(email, bar, clientId, clientSecret, gramolaCookie, pwd, creationTokenId);
+        // Llama a tu servicio con los datos correctos
+        return service.register(email, bar, clientId, clientSecret, gramolaCookie, pwd1, creationTokenId);
     }
 }
