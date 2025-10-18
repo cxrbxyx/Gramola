@@ -1,6 +1,8 @@
 package com.gramlolabe.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gramlolabe.entity.User;
@@ -11,6 +13,8 @@ public class UserService {
 
     @Autowired
     private UserDAO userDAO;
+
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public String register(String email, String bar, String clientId, String clientSecret, String gramolaCookie, String pwd, String creationTokenId) {
         if (bar == null || bar.trim().isEmpty())
@@ -28,7 +32,8 @@ public class UserService {
         if (pwd.length() < 6)
             return "La contraseña debe tener al menos 6 caracteres";
 
-        User user = new User(email, bar, clientId, clientSecret, gramolaCookie, pwd, creationTokenId);
+        String hashedPwd = passwordEncoder.encode(pwd);
+        User user = new User(email, bar, clientId, clientSecret, gramolaCookie, hashedPwd, creationTokenId);
         userDAO.save(user);
 
         return "OK";
