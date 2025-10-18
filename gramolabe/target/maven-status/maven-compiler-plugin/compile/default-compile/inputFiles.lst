@@ -1,5 +1,7 @@
 /home/pablo/Codigo/Cuarto/TySW/Gramola/gramolabe/src/main/java/com/gramlolabe/entity/User.java
 /home/pablo/Codigo/Cuarto/TySW/Gramola/gramolabe/src/main/java/com/gramlolabe/App.java
 /home/pablo/Codigo/Cuarto/TySW/Gramola/gramolabe/src/main/java/com/gramlolabe/repository/UserDAO.java
+/home/pablo/Codigo/Cuarto/TySW/Gramola/gramolabe/src/main/java/com/gramlolabe/entity/Token.java
+/home/pablo/Codigo/Cuarto/TySW/Gramola/gramolabe/src/main/java/com/gramlolabe/repository/TokenDAO.java
 /home/pablo/Codigo/Cuarto/TySW/Gramola/gramolabe/src/main/java/com/gramlolabe/service/UserService.java
 /home/pablo/Codigo/Cuarto/TySW/Gramola/gramolabe/src/main/java/com/gramlolabe/controller/UserController.java

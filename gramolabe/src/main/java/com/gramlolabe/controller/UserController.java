@@ -35,7 +35,10 @@ public class UserController {
         String gramolaCookie = ""; 
         String creationTokenId = "";
 
-        // Llama a tu servicio con los datos correctos
-        return service.register(email, bar, clientId, clientSecret, gramolaCookie, pwd1, creationTokenId);
+    // Llama a tu servicio con los datos correctos
+    String tokenId = service.register(email, bar, clientId, clientSecret, gramolaCookie, pwd1, creationTokenId);
+    // Simula el envío de correo devolviendo la URL de confirmación
+    String confirmUrl = "http://localhost:8080/confirm?token=" + tokenId + "&email=" + email;
+    return "Usuario registrado. Confirma tu cuenta usando la siguiente URL: " + confirmUrl;
     }
 }
