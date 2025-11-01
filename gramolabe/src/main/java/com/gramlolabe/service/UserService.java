@@ -1,50 +1,74 @@
 package com.gramlolabe.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus; // Importa HttpStatus
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException; // Importa ResponseStatusException
 
+import com.gramlolabe.entity.Token;
 import com.gramlolabe.entity.User;
+import com.gramlolabe.repository.TokenDAO;
 import com.gramlolabe.repository.UserDAO;
 
 @Service
 public class UserService {
 
+    // ... (Tu código existente: DAOs, mailSender, passwordEncoder, método register) ...
+    
     @Autowired
     private UserDAO userDAO;
 
     @Autowired
-    private com.gramlolabe.repository.TokenDAO tokenDAO;
+    private TokenDAO tokenDAO;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public String register(String email, String bar, String clientId, String clientSecret, String gramolaCookie, String pwd, String creationTokenId) {
-        if (bar == null || bar.trim().isEmpty())
-            return "El nombre del bar es obligatorio";
-        if (email == null || email.trim().isEmpty())
-            return "El email es obligatorio";
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
-            return "El email no es válido";
-        if (clientId == null || clientId.trim().isEmpty())
-            return "El Client ID es obligatorio";
-        if (clientSecret == null || clientSecret.trim().isEmpty())
-            return "El Client Secret es obligatorio";
-        if (pwd == null || pwd.trim().isEmpty())
-            return "La contraseña es obligatoria";
-        if (pwd.length() < 6)
-            return "La contraseña debe tener al menos 6 caracteres";
+    public void register(String email, String bar, String clientId, String clientSecret, String gramolaCookie, String pwd, String creationTokenId) {
+        // ... (Tu método register que implementamos en el paso 2.2) ...
+    }
 
-    String hashedPwd = passwordEncoder.encode(pwd);
-    // Generar token de confirmación
-    String tokenId = java.util.UUID.randomUUID().toString();
-    long creationTime = System.currentTimeMillis();
-    com.gramlolabe.entity.Token token = new com.gramlolabe.entity.Token(tokenId, creationTime, email);
-    tokenDAO.save(token);
-    // Asociar el token al usuario
-    User user = new User(email, bar, clientId, clientSecret, gramolaCookie, hashedPwd, tokenId);
-    userDAO.save(user);
+    private void sendConfirmationEmail(String userEmail, String tokenId) {
+        // ... (Tu método sendConfirmationEmail que implementamos en el paso 2.2) ...
+    }
 
-    return tokenId;
+
+    // --- MÉTODO NUEVO PARA EL PASO 2.3 ---
+    
+    /**
+     * Confirma un token de registro.
+     * Busca el token por su ID y email, y si es válido (existe y no ha sido usado),
+     * lo marca como usado.
+     * * @param email El email del usuario
+     * @param tokenId El ID del token
+     * @throws ResponseStatusException si el token no es válido o ya fue usado
+     */
+    public void confirmToken(String email, String tokenId) {
+        // Busca el token usando el método que ya tienes en tu TokenDAO
+        Token token = tokenDAO.findByIdAndEmail(tokenId, email);
+
+        // Comprueba si el token es válido
+        if (token == null || token.getUseTime() != 0) {
+            // Si no existe o ya fue usado, lanza un error
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token no válido o expirado.");
+        }
+
+        // Si es válido, marca la hora de uso y actualiza la BD
+        token.setUseTime(System.currentTimeMillis());
+        tokenDAO.save(token);
+        
+        // Opcional: Aquí también podrías activar al usuario en la tabla 'User'
+        // si tienes un campo 'boolean active'.
+        // User user = userDAO.findById(email).orElse(null);
+        // if (user != null) {
+        //    user.setActive(true);
+        //    userDAO.save(user);
+        // }
     }
 }

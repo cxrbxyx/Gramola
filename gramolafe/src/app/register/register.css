@@ -49,3 +49,23 @@ form button {
 form button:hover {
 	background: #1565c0;
 }
+
+/* ... otros estilos ... */
+
+.success-message {
+  color: green;
+  background-color: #e6ffed;
+  border: 1px solid green;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 18px;
+}
+
+.error-message {
+  color: red;
+  background-color: #ffe6e6;
+  border: 1px solid red;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 18px;
+}

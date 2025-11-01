@@ -5,7 +5,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = ' http://localhost:8080/register';
+  // Asegúrate de que la URL coincide con tu @RequestMapping y @PostMapping
+  private apiUrl = 'http://localhost:8080/users/register';
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +18,6 @@ export class UserService {
     clientId: string,
     clientSecret: string
   ) {
-    // Añade todos los campos al objeto 'info'
     let info = {
       bar: bar,
       email: email,
@@ -26,6 +26,7 @@ export class UserService {
       clientId: clientId,
       clientSecret: clientSecret,
     };
-    return this.http.post<any>(this.apiUrl, info);
+
+    return this.http.post(this.apiUrl, info, { responseType: 'text' });
   }
 }

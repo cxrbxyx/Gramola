@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importa CommonModule
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../user-service';
 
@@ -18,24 +18,35 @@ export class RegisterComponent {
   pwd1: string = '';
   pwd2: string = '';
 
+  // Variables para mostrar mensajes al usuario
+  successMessage: string = '';
+  errorMessage: string = '';
+
   constructor(private service: UserService) {}
 
   registrar() {
-    if (this.pwd1 != this.pwd2) {
-      console.error('Las contraseñas no coinciden');
+    // Resetea mensajes
+    this.successMessage = '';
+    this.errorMessage = '';
+
+    if (this.pwd1 !== this.pwd2) {
+      this.errorMessage = 'Las contraseñas no coinciden';
       return;
     }
 
-    // Llama al servicio con TODOS los campos
     this.service
       .register(this.bar, this.email, this.pwd1, this.pwd2, this.clientID, this.clientSecret)
-      .subscribe(
-        (ok) => {
-          console.log('Registro exitoso', ok);
+      .subscribe({
+        next: (responseMessage) => {
+          // 'responseMessage' es el string "¡Registro casi completo!..."
+          this.successMessage = responseMessage; 
+          console.log('Registro exitoso', responseMessage);
         },
-        (error) => {
-          console.error('Error en el registro', error);
+        error: (errorResponse) => {
+          // 'errorResponse.error' es el string de error del backend
+          this.errorMessage = errorResponse.error; 
+          console.error('Error en el registro', errorResponse);
         }
-      );
+      });
   }
 }

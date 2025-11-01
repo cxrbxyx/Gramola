@@ -1,24 +1,37 @@
 <div class="register-container">
-    <h1>Registro de bar</h1>
-    <form (ngSubmit)="registrar()" autocomplete="off">
-        <label for="bar">Nombre del bar:</label>
-        <input id="bar" type="text" [(ngModel)]="bar" name="bar" required>
+  <h1>Registro de bar</h1>
+  <form (ngSubmit)="registrar()" autocomplete="off">
+    <label for="bar">Nombre del bar:</label>
+    <input id="bar" type="text" [(ngModel)]="bar" name="bar" required />
 
-        <label for="email">Email:</label>
-        <input id="email" type="email" [(ngModel)]="email" name="email" required>
+    <label for="email">Email:</label>
+    <input id="email" type="email" [(ngModel)]="email" name="email" required />
 
-        <label for="clientID">Tu Client Id de Spotify:</label>
-        <input id="clientID" type="text" [(ngModel)]="clientID" name="clientID" required>
+    <label for="clientID">Tu Client Id de Spotify:</label>
+    <input id="clientID" type="text" [(ngModel)]="clientID" name="clientID" required />
 
-        <label for="clientSecret">Tu Client Secret:</label>
-        <input id="clientSecret" type="password" [(ngModel)]="clientSecret" name="clientSecret" required>
+    <label for="clientSecret">Tu Client Secret:</label>
+    <input
+      id="clientSecret"
+      type="password"
+      [(ngModel)]="clientSecret"
+      name="clientSecret"
+      required
+    />
 
-        <label for="pwd1">Contraseña:</label>
-        <input id="pwd1" type="password" [(ngModel)]="pwd1" name="pwd1" required>
+    <label for="pwd1">Contraseña:</label>
+    <input id="pwd1" type="password" [(ngModel)]="pwd1" name="pwd1" required />
 
-        <label for="pwd2">Confirmar Contraseña:</label>
-        <input id="pwd2" type="password" [(ngModel)]="pwd2" name="pwd2" required>
+    <label for="pwd2">Confirmar Contraseña:</label>
+    <input id="pwd2" type="password" [(ngModel)]="pwd2" name="pwd2" required />
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
 
-        <button type="submit">Registrar</button>
-    </form>
+    <button type="submit">Registrar</button>
+    <button type="submit">Registrar</button>
+  </form>
 </div>
