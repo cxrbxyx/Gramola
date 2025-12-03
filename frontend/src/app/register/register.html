@@ -9,27 +9,67 @@
         {{ errorMessage }}
       </div>
 
-      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
         
         <div class="form-group">
           <label for="name" class="form-label">Nombre del Bar</label>
           <input type="text" id="name" name="name" class="form-input" 
-                 [(ngModel)]="user.name" required placeholder="Ej. Bar Manolo">
+                 [(ngModel)]="user.name" required #nameField="ngModel"
+                 [class.input-error]="nameField.invalid && nameField.touched"
+                 placeholder="Ej. Bar Manolo">
+          <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-error">
+            El nombre es obligatorio.
+          </div>
         </div>
 
         <div class="form-group">
           <label for="email" class="form-label">Correo Electrónico</label>
           <input type="email" id="email" name="email" class="form-input" 
-                 [(ngModel)]="user.email" required email placeholder="bar@ejemplo.com">
+                 [(ngModel)]="user.email" required email #emailField="ngModel"
+                 [class.input-error]="emailField.invalid && emailField.touched"
+                 placeholder="bar@ejemplo.com">
+          <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-error">
+            Introduce un correo electrónico válido.
+          </div>
         </div>
 
         <div class="form-group">
           <label for="password" class="form-label">Contraseña</label>
           <input type="password" id="password" name="password" class="form-input" 
-                 [(ngModel)]="user.password" required minlength="6" placeholder="******">
+                 [(ngModel)]="user.password" required minlength="6" #passField="ngModel"
+                 [class.input-error]="passField.invalid && passField.touched"
+                 placeholder="******">
+          <div *ngIf="passField.invalid && (passField.dirty || passField.touched)" class="text-error">
+            Mínimo 6 caracteres.
+          </div>
         </div>
 
-        <button type="submit" class="btn-primary" [disabled]="!registerForm.form.valid">
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1.5rem 0;">
+        <p class="auth-subtitle" style="margin-bottom: 1rem; font-weight: 600;">Credenciales de Spotify</p>
+
+        <div class="form-group">
+          <label for="clientId" class="form-label">Client ID</label>
+          <input type="text" id="clientId" name="spotifyClientId" class="form-input" 
+                 [(ngModel)]="user.spotifyClientId" required #clientField="ngModel"
+                 [class.input-error]="clientField.invalid && clientField.touched"
+                 placeholder="Tu Client ID de Spotify">
+           <div *ngIf="clientField.invalid && (clientField.dirty || clientField.touched)" class="text-error">
+            El Client ID es obligatorio.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="clientSecret" class="form-label">Client Secret</label>
+          <input type="password" id="clientSecret" name="spotifyClientSecret" class="form-input" 
+                 [(ngModel)]="user.spotifyClientSecret" required #secretField="ngModel"
+                 [class.input-error]="secretField.invalid && secretField.touched"
+                 placeholder="Tu Client Secret de Spotify">
+          <div *ngIf="secretField.invalid && (secretField.dirty || secretField.touched)" class="text-error">
+            El Client Secret es obligatorio.
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">
           Registrarse
         </button>
       </form>

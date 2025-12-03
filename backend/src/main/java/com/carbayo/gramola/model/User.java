@@ -13,27 +13,7 @@ import lombok.Data;
 @Table(name = "users")
 public class User {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    private String name;
-    
-    @Column(unique = true)
-    private String email;
-    
-    private String password; // Recuerda que esto debería estar hasheado en producción
-    
-    private String role; // ej. "ADMIN", "BAR", "USER"
-
-    // Nuevo: Código de verificación para el registro
-    @Column(name = "verification_code", length = 64)
-    private String verificationCode;
-
-    // Nuevo: Estado de la cuenta, por defecto false hasta que confirme
-    private boolean enabled;
-
-	public Long getId() {
+    public Long getId() {
 		return id;
 	}
 
@@ -73,6 +53,22 @@ public class User {
 		this.role = role;
 	}
 
+	public String getSpotifyClientId() {
+		return spotifyClientId;
+	}
+
+	public void setSpotifyClientId(String spotifyClientId) {
+		this.spotifyClientId = spotifyClientId;
+	}
+
+	public String getSpotifyClientSecret() {
+		return spotifyClientSecret;
+	}
+
+	public void setSpotifyClientSecret(String spotifyClientSecret) {
+		this.spotifyClientSecret = spotifyClientSecret;
+	}
+
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -88,6 +84,30 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
+    private String name;
     
+    @Column(unique = true)
+    private String email;
+    
+    private String password; 
+    
+    private String role; // ej. "ADMIN", "BAR", "USER"
+
+    // --- NUEVOS CAMPOS SPOTIFY ---
+    @Column(name = "spotify_client_id")
+    private String spotifyClientId;
+
+    @Column(name = "spotify_client_secret")
+    private String spotifyClientSecret;
+    // -----------------------------
+
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+
+    private boolean enabled;
 }
