@@ -1,1 +1,52 @@
-<p>register works!</p>
+<div class="container" style="max-width: 500px; margin: 2rem auto; padding: 1rem; border: 1px solid #ccc; border-radius: 8px;">
+  <h2>Registro de Bar (Gramola)</h2>
+  
+  <div class="form-group">
+    <label for="bar">Nombre del Bar:</label>
+    <input type="text" id="bar" class="form-control" [(ngModel)]="bar" placeholder="Ej. Bar Manolo">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" id="email" class="form-control" [(ngModel)]="email" placeholder="correo@ejemplo.com">
+  </div>
+
+  <hr>
+  <h4>Credenciales Spotify</h4>
+  <p><small>Obtenlas en <a href="https://developer.spotify.com/dashboard" target="_blank">Spotify Developer Dashboard</a></small></p>
+
+  <div class="form-group">
+    <label for="clientId">Client ID:</label>
+    <input type="text" id="clientId" class="form-control" [(ngModel)]="clientId" placeholder="Pegar Client ID aquí">
+  </div>
+
+  <div class="form-group">
+    <label for="clientSecret">Client Secret:</label>
+    <input type="password" id="clientSecret" class="form-control" [(ngModel)]="clientSecret" placeholder="Pegar Client Secret aquí">
+  </div>
+  <hr>
+
+  <div class="form-group">
+    <label for="pwd1">Contraseña:</label>
+    <input type="password" id="pwd1" class="form-control" [(ngModel)]="pwd1">
+  </div>
+
+  <div class="form-group">
+    <label for="pwd2">Confirmar Contraseña:</label>
+    <input type="password" id="pwd2" class="form-control" [(ngModel)]="pwd2">
+  </div>
+
+  <br>
+  
+  <button (click)="register()" style="width: 100%; padding: 10px; background-color: #1DB954; color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer;">
+    Registrar Bar
+  </button>
+
+  <div *ngIf="mensajeError" style="color: red; margin-top: 10px; font-weight: bold;">
+    {{ mensajeError }}
+  </div>
+
+  <div *ngIf="mensajeExito" style="color: green; margin-top: 10px; font-weight: bold; padding: 10px; border: 1px solid green; background-color: #e8f5e9;">
+    {{ mensajeExito }}
+  </div>
+</div>
