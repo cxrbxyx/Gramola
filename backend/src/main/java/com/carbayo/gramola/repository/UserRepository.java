@@ -8,5 +8,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
 
     // Nuevo método para encontrar por código de verificación
-    User findByVerificationCode(String verificationCode);
+    //User findByVerificationCode(String verificationCode);
 }

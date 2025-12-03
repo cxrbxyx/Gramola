@@ -45,13 +45,6 @@ public class User {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
 
 	public String getSpotifyClientId() {
 		return spotifyClientId;
@@ -69,21 +62,7 @@ public class User {
 		this.spotifyClientSecret = spotifyClientSecret;
 	}
 
-	public String getVerificationCode() {
-		return verificationCode;
-	}
 
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,18 +75,13 @@ public class User {
     
     private String password; 
     
-    private String role; // ej. "ADMIN", "BAR", "USER"
+    
 
-    // --- NUEVOS CAMPOS SPOTIFY ---
     @Column(name = "spotify_client_id")
     private String spotifyClientId;
 
     @Column(name = "spotify_client_secret")
     private String spotifyClientSecret;
-    // -----------------------------
 
-    @Column(name = "verification_code", length = 64)
-    private String verificationCode;
-
-    private boolean enabled;
+    
 }
