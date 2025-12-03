@@ -2,10 +2,16 @@ package com.carbayo.gramola.service;
 
 import com.carbayo.gramola.model.User;
 import com.carbayo.gramola.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+@Service
 public class UserService {
 	public void register(String bar, String email, String pwd, String clientId, String clientSecret) throws Exception {
 	    // 1. Verificar si existe el usuario...
-	    
+	    private UserRepository userRepository;
 	    // 2. Crear usuario nuevo
 	    User user = new User();
 	    user.setEmail(email);
@@ -19,7 +25,7 @@ public class UserService {
 	    user.setCreationTokenId(token);
 	    
 	    // 4. Guardar en base de datos
-	    this.serRepository.save(user);
+	    this.userRepository.save(user);
 
 	    // 5. "Enviar" correo electrónico
 	    String confirmationUrl = "http://localhost:8080/users/confirmToken/" + email + "?token=" + token;
