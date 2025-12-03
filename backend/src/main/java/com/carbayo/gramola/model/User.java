@@ -1,33 +1,53 @@
 package com.carbayo.gramola.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
+import lombok.Data;
 
 @Entity
-@Table(name = "user")
+@Data
+@Table(name = "users")
 public class User {
-
+    
     @Id
-    private String email; // El email es la clave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String name;
+    
+    @Column(unique = true)
+    private String email;
+    
+    private String password; // Recuerda que esto debería estar hasheado en producción
+    
+    private String role; // ej. "ADMIN", "BAR", "USER"
 
-    @Column(nullable = false)
-    private String bar; // Nombre del bar
+    // Nuevo: Código de verificación para el registro
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
 
-    @Column(nullable = false)
-    private String pwd; // Contraseña cifrada (idealmente)
+    // Nuevo: Estado de la cuenta, por defecto false hasta que confirme
+    private boolean enabled;
 
-    // Credenciales de Spotify (Obligatorias para que la gramola funcione)
-    @Column(name = "client_id", nullable = false)
-    private String clientId;
+	public Long getId() {
+		return id;
+	}
 
-    @Column(name = "client_secret", nullable = false)
-    private String clientSecret;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    // Token para confirmar el email
-    @Column(name = "creation_token_id")
-    private String creationTokenId;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getEmail() {
 		return email;
@@ -37,46 +57,37 @@ public class User {
 		this.email = email;
 	}
 
-	public String getBar() {
-		return bar;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setBar(String bar) {
-		this.bar = bar;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public String getPwd() {
-		return pwd;
+	public String getRole() {
+		return role;
 	}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getVerificationCode() {
+		return verificationCode;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
 	}
 
-	public String getClientSecret() {
-		return clientSecret;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setClientSecret(String clientSecret) {
-		this.clientSecret = clientSecret;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
-
-	public String getCreationTokenId() {
-		return creationTokenId;
-	}
-
-	public void setCreationTokenId(String creationTokenId) {
-		this.creationTokenId = creationTokenId;
-	}
-
-    // Getters, Setters y Constructores vacíos...
+    
     
 }

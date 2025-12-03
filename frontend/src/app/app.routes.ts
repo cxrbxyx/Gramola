@@ -1,7 +1,13 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from './register/register'; // Ojo a la ruta de importación, ajusta si es necesario
+import { RegisterComponent } from './register/register';
+import { VerifyComponent } from './verify/verify'; // Importación nueva
 
 export const routes: Routes = [
-    { path: 'register', component: RegisterComponent },
-    { path: '', redirectTo: '/register', pathMatch: 'full' } // Redirigir al registro por defecto para probar
+  // Ruta por defecto
+  { path: '', redirectTo: '/register', pathMatch: 'full' }, 
+  
+  { path: 'register', component: RegisterComponent },
+  
+  // Nueva ruta para verificación
+  { path: 'verify', component: VerifyComponent }
 ];

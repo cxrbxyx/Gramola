@@ -1,15 +1,12 @@
 package com.carbayo.gramola.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import com.carbayo.gramola.model.User;
 
-import java.util.Optional;
-
-@Repository // <--- Añade esto para ayudar a Spring a detectarlo
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
     
-    // Spring implementa esto automáticamente solo con ver el nombre del método.
-    // Lo necesitaremos para el paso de confirmar el email.
-    Optional<User> findByCreationTokenId(String creationTokenId);
+    User findByEmail(String email);
+
+    // Nuevo método para encontrar por código de verificación
+    User findByVerificationCode(String verificationCode);
 }
