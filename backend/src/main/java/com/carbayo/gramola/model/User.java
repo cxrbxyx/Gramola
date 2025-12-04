@@ -10,80 +10,82 @@ import lombok.Data;
 @Data
 @Table(name = "users")
 public class User {
-	    @Id
-	    private String email;
-	    
-	    @Column(nullable = false)
-	    private String pwd;
-	    
-	    @Column(nullable = false)
-	    private String barName;
-	    
-	    @Column(nullable = false, name= "client_id")
-	    private String clientId;
-	    
-	    @Column(nullable = false, name = "client_secret")
-	    private String clientSecret;
-	    
-	    @Column(name = "creation_token")
-	    private String token;
+    @Id
+    private String email;
+    
+    @Column(nullable = false, name = "pwd")
+    private String pwd;
+    
+    @Column(nullable = false, name = "bar_name")
+    private String barName;
+    
+    @Column(nullable = false, name = "client_id")
+    private String clientId;
+    
+    @Column(nullable = false, name = "client_secret")
+    private String clientSecret;
+    
+    @Column(name = "creation_token")
+    private String token;
+    
+    // Constructor vacío requerido por JPA
+    public User() {}
 
-		public User(String email, String pwd, String barName, String clientId, String clientSecret,String token) {
-			super();
-			this.email = email;
-			this.pwd = pwd;
-			this.barName = barName;
-			this.clientId = clientId;
-			this.clientSecret = clientSecret;
-			this.token = token;
-		}
+    public User(String email, String barName, String pwd, String clientId, String clientSecret, String token) {
+        this.email = email;
+        this.barName = barName;
+        this.pwd = pwd;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.token = token;
+    }
 
-		public String getEmail() {
-			return email;
-		}
+    // Getters y Setters
+    public String getEmail() {
+        return email;
+    }
 
-		public void setEmail(String email) {
-			this.email = email;
-		}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-		public String getPwd() {
-			return pwd;
-		}
+    public String getPwd() {
+        return pwd;
+    }
 
-		public void setPwd(String pwd) {
-			this.pwd = pwd;
-		}
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
 
-		public String getBarName() {
-			return barName;
-		}
+    public String getBarName() {
+        return barName;
+    }
 
-		public void setBarName(String barName) {
-			this.barName = barName;
-		}
+    public void setBarName(String barName) {
+        this.barName = barName;
+    }
 
-		public String getClientId() {
-			return clientId;
-		}
+    public String getClientId() {
+        return clientId;
+    }
 
-		public void setClientId(String clientId) {
-			this.clientId = clientId;
-		}
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
-		public String getClientSecret() {
-			return clientSecret;
-		}
+    public String getClientSecret() {
+        return clientSecret;
+    }
 
-		public void setClientSecret(String clientSecret) {
-			this.clientSecret = clientSecret;
-		}
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
 
-		public String getToken() {
-			return token;
-		}
+    public String getToken() {
+        return token;
+    }
 
-		public void setToken(String token) {
-			this.token = token;
-		}
-	    
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

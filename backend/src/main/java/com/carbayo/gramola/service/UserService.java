@@ -3,8 +3,6 @@ package com.carbayo.gramola.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.carbayo.gramola.model.User;
@@ -17,7 +15,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private EmailService mailService;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -37,47 +35,46 @@ public class UserService {
 
     // Lógica de Registro con Envío de Email
     public void register(String bar, String email, String pwd, String clientId, String clientSecret) throws Exception {
-    	String token = java.util.UUID.randomUUID().toString();
-        User user = new User(email,bar,pwd,clientId,clientSecret,token);
+        String token = java.util.UUID.randomUUID().toString();
+        // IMPORTANTE: El orden debe ser: email, barName, pwd, clientId, clientSecret,
+        // token
+        User user = new User(email, bar, pwd, clientId, clientSecret, token);
         this.userRepository.save(user);
-        // 5. "Enviar" correo electrónico
-        String confirmationUrl = "http://localhost:8080/users/confirmToken/" + email + "?token=" + token;
-        // TRUCO PARA DESARROLLO: Como probablemente no tengas servidor SMTP configurado aún,
-        // imprime esto en la consola de Eclipse/IntelliJ para poder hacer clic y seguir la práctica.
-        System.out.println("--- CORREO SIMULADO ---");
-        System.out.println("Hola " + bar + ", confirma tu cuenta aquí: " + confirmationUrl);
-        System.out.println("-----------------------");
+        String confirmationUrl = "http://localhost:4200/verify?email=" + email + "&token=" + token;
+
+        // Mensaje del correo
+        String mensaje = "Hola " + bar + ",\n\n" +
+                "Gracias por registrarte en Gramola.\n\n" +
+                "Por favor, confirma tu cuenta haciendo clic en el siguiente enlace:\n\n" +
+                confirmationUrl + "\n\n" +
+                "Si no has solicitado este registro, ignora este correo.\n\n" +
+                "Saludos,\nEl equipo de Gramola";
+
+        // Enviar el correo
+        try {
+            this.mailService.sendEmail(email, "Confirma tu cuenta de Gramola", mensaje);
+            System.out.println("✅ Correo enviado a: " + email);
+        } catch (Exception e) {
+            System.err.println("❌ Error al enviar correo: " + e.getMessage());
+            // También puedes mostrar en consola para debug
+            System.out.println("--- CORREO QUE SE INTENTÓ ENVIAR ---");
+            System.out.println("Para: " + email);
+            System.out.println("Asunto: Confirma tu cuenta de Gramola");
+            System.out.println("Contenido:\n" + mensaje);
+            System.out.println("-----------------------------------");
+        }
     }
 
-    private void sendVerificationEmail(User user, String siteURL) {
-        String toAddress = user.getEmail();
-        String fromAddress = "pruebaspablo0705@gmail.com"; // O tu email configurado
-        String senderName = "Equipo Gramola";
-        String subject = "Por favor, verifica tu registro en Gramola";
-        
-        // Construimos el enlace. siteURL suele ser http://localhost:4200 (frontend)
-        // El frontend recibirá el token y llamará al backend para validarlo.
-
-        String content = "Hola " + user.getBarName() + ",\n\n"
-                + "Gracias por registrar tu bar en Gramola. Por favor, haz clic en el siguiente enlace para verificar tu cuenta:\n\n"
-                + "Gracias,\n"
-                + senderName;
-
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromAddress);
-        message.setTo(toAddress);
-        message.setSubject(subject);
-        message.setText(content);
-
-        mailSender.send(message);
+    public boolean confirmUser(String email, String token) {
+        return userRepository.findByToken(token)
+                .map(user -> {
+                    if (user.getEmail().equals(email)) {
+                        user.setToken(null); // Borramos el token para que no se pueda reusar
+                        userRepository.save(user);
+                        return true;
+                    }
+                    return false;
+                })
+                .orElse(false);
     }
-
-    // Método para verificar la cuenta cuando llega el token
-	/*
-	 * public boolean verify(String verificationCode) { User user =
-	 * userRepository.findByVerificationCode(verificationCode);
-	 * 
-	 * if (user == null) { return false; } else { userRepository.save(user); return
-	 * true; } }
-	 */
 }
