@@ -1,8 +1,6 @@
 package com.carbayo.gramola.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
@@ -12,76 +10,80 @@ import lombok.Data;
 @Data
 @Table(name = "users")
 public class User {
-    
-    public Long getId() {
-		return id;
-	}
+	    @Id
+	    private String email;
+	    
+	    @Column(nullable = false)
+	    private String pwd;
+	    
+	    @Column(nullable = false)
+	    private String barName;
+	    
+	    @Column(nullable = false, name= "client_id")
+	    private String clientId;
+	    
+	    @Column(nullable = false, name = "client_secret")
+	    private String clientSecret;
+	    
+	    @Column(name = "creation_token")
+	    private String token;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+		public User(String email, String pwd, String barName, String clientId, String clientSecret,String token) {
+			super();
+			this.email = email;
+			this.pwd = pwd;
+			this.barName = barName;
+			this.clientId = clientId;
+			this.clientSecret = clientSecret;
+			this.token = token;
+		}
 
-	public String getName() {
-		return name;
-	}
+		public String getEmail() {
+			return email;
+		}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+		public void setEmail(String email) {
+			this.email = email;
+		}
 
-	public String getEmail() {
-		return email;
-	}
+		public String getPwd() {
+			return pwd;
+		}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+		public void setPwd(String pwd) {
+			this.pwd = pwd;
+		}
 
-	public String getPassword() {
-		return password;
-	}
+		public String getBarName() {
+			return barName;
+		}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+		public void setBarName(String barName) {
+			this.barName = barName;
+		}
 
+		public String getClientId() {
+			return clientId;
+		}
 
-	public String getSpotifyClientId() {
-		return spotifyClientId;
-	}
+		public void setClientId(String clientId) {
+			this.clientId = clientId;
+		}
 
-	public void setSpotifyClientId(String spotifyClientId) {
-		this.spotifyClientId = spotifyClientId;
-	}
+		public String getClientSecret() {
+			return clientSecret;
+		}
 
-	public String getSpotifyClientSecret() {
-		return spotifyClientSecret;
-	}
+		public void setClientSecret(String clientSecret) {
+			this.clientSecret = clientSecret;
+		}
 
-	public void setSpotifyClientSecret(String spotifyClientSecret) {
-		this.spotifyClientSecret = spotifyClientSecret;
-	}
+		public String getToken() {
+			return token;
+		}
 
-
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    private String name;
-    
-    @Column(unique = true)
-    private String email;
-    
-    private String password; 
-    
-    
-
-    @Column(name = "spotify_client_id")
-    private String spotifyClientId;
-
-    @Column(name = "spotify_client_secret")
-    private String spotifyClientSecret;
-
-    
+		public void setToken(String token) {
+			this.token = token;
+		}
+	    
 }

@@ -1,92 +1,31 @@
-<div class="auth-container">
-  <div class="auth-card">
-    
-    <div *ngIf="!isRegistered">
-      <h2 class="auth-title">Crear Cuenta</h2>
-      <p class="auth-subtitle">Registra tu bar en Gramola</p>
+<div class="card">
+  <h2>Registro de bar</h2>
 
-      <div *ngIf="errorMessage" class="alert alert-error">
-        {{ errorMessage }}
-      </div>
+  <label>Nombre del bar:</label>
+  <input type="text" [(ngModel)]="bar" name="bar" />
 
-      <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
-        
-        <div class="form-group">
-          <label for="name" class="form-label">Nombre del Bar</label>
-          <input type="text" id="name" name="name" class="form-input" 
-                 [(ngModel)]="user.name" required #nameField="ngModel"
-                 [class.input-error]="nameField.invalid && nameField.touched"
-                 placeholder="Ej. Bar Manolo">
-          <div *ngIf="nameField.invalid && (nameField.dirty || nameField.touched)" class="text-error">
-            El nombre es obligatorio.
-          </div>
-        </div>
+  <label>Email:</label>
+  <input type="email" [(ngModel)]="email" name="email" />
 
-        <div class="form-group">
-          <label for="email" class="form-label">Correo Electrónico</label>
-          <input type="email" id="email" name="email" class="form-input" 
-                 [(ngModel)]="user.email" required email #emailField="ngModel"
-                 [class.input-error]="emailField.invalid && emailField.touched"
-                 placeholder="bar@ejemplo.com">
-          <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-error">
-            Introduce un correo electrónico válido.
-          </div>
-        </div>
+  <label>Tu Client Id de Spotify:</label>
+  <input type="text" [(ngModel)]="clientId" name="clientId" />
 
-        <div class="form-group">
-          <label for="password" class="form-label">Contraseña</label>
-          <input type="password" id="password" name="password" class="form-input" 
-                 [(ngModel)]="user.password" required minlength="6" #passField="ngModel"
-                 [class.input-error]="passField.invalid && passField.touched"
-                 placeholder="******">
-          <div *ngIf="passField.invalid && (passField.dirty || passField.touched)" class="text-error">
-            Mínimo 6 caracteres.
-          </div>
-        </div>
+  <label>Tu Client Secret:</label>
+  <input type="password" [(ngModel)]="clientSecret" name="clientSecret" />
 
-        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1.5rem 0;">
-        <p class="auth-subtitle" style="margin-bottom: 1rem; font-weight: 600;">Credenciales de Spotify</p>
+  <label>Contraseña:</label>
+  <input type="password" [(ngModel)]="pwd1" name="pwd1" />
 
-        <div class="form-group">
-          <label for="clientId" class="form-label">Client ID</label>
-          <input type="text" id="clientId" name="spotifyClientId" class="form-input" 
-                 [(ngModel)]="user.spotifyClientId" required #clientField="ngModel"
-                 [class.input-error]="clientField.invalid && clientField.touched"
-                 placeholder="Tu Client ID de Spotify">
-           <div *ngIf="clientField.invalid && (clientField.dirty || clientField.touched)" class="text-error">
-            El Client ID es obligatorio.
-          </div>
-        </div>
+  <label>Confirmar Contraseña:</label>
+  <input type="password" [(ngModel)]="pwd2" name="pwd2" />
 
-        <div class="form-group">
-          <label for="clientSecret" class="form-label">Client Secret</label>
-          <input type="password" id="clientSecret" name="spotifyClientSecret" class="form-input" 
-                 [(ngModel)]="user.spotifyClientSecret" required #secretField="ngModel"
-                 [class.input-error]="secretField.invalid && secretField.touched"
-                 placeholder="Tu Client Secret de Spotify">
-          <div *ngIf="secretField.invalid && (secretField.dirty || secretField.touched)" class="text-error">
-            El Client Secret es obligatorio.
-          </div>
-        </div>
+  <button (click)="register()">Registrar</button>
 
-        <button type="submit" class="btn-primary">
-          Registrarse
-        </button>
-      </form>
-    </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
 
-    <div *ngIf="isRegistered">
-      <h2 class="auth-title" style="color: var(--primary-color)">¡Casi listo!</h2>
-      <p class="auth-subtitle">
-        Hemos enviado un correo de confirmación a <strong>{{ user.email }}</strong>.
-      </p>
-      <div class="alert alert-success">
-        Por favor, revisa tu bandeja de entrada (y spam) y haz clic en el enlace para activar tu cuenta.
-      </div>
-      <p class="auth-subtitle" style="margin-top: 2rem;">
-        ¿Ya verificaste? <a href="#" class="btn-link">Inicia sesión aquí</a>
-      </p>
-    </div>
-
+  <div *ngIf="registroExitoso" class="alert alert-success">
+    Revisa tu correo electrónico (o la consola del backend) para confirmar.
   </div>
 </div>

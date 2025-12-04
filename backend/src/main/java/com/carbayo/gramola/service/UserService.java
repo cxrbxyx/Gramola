@@ -36,16 +36,17 @@ public class UserService {
     }
 
     // Lógica de Registro con Envío de Email
-    public User registerUser(User user, String siteURL) {
-        // 1. Generar código de verificación aleatorio
-
-        // 2. Guardar usuario
-        User savedUser = userRepository.save(user);
-
-        // 3. Enviar email de confirmación
-        sendVerificationEmail(savedUser, siteURL);
-        
-        return savedUser;
+    public void register(String bar, String email, String pwd, String clientId, String clientSecret) throws Exception {
+    	String token = java.util.UUID.randomUUID().toString();
+        User user = new User(email,bar,pwd,clientId,clientSecret,token);
+        this.userRepository.save(user);
+        // 5. "Enviar" correo electrónico
+        String confirmationUrl = "http://localhost:8080/users/confirmToken/" + email + "?token=" + token;
+        // TRUCO PARA DESARROLLO: Como probablemente no tengas servidor SMTP configurado aún,
+        // imprime esto en la consola de Eclipse/IntelliJ para poder hacer clic y seguir la práctica.
+        System.out.println("--- CORREO SIMULADO ---");
+        System.out.println("Hola " + bar + ", confirma tu cuenta aquí: " + confirmationUrl);
+        System.out.println("-----------------------");
     }
 
     private void sendVerificationEmail(User user, String siteURL) {
@@ -57,7 +58,7 @@ public class UserService {
         // Construimos el enlace. siteURL suele ser http://localhost:4200 (frontend)
         // El frontend recibirá el token y llamará al backend para validarlo.
 
-        String content = "Hola " + user.getName() + ",\n\n"
+        String content = "Hola " + user.getBarName() + ",\n\n"
                 + "Gracias por registrar tu bar en Gramola. Por favor, haz clic en el siguiente enlace para verificar tu cuenta:\n\n"
                 + "Gracias,\n"
                 + senderName;

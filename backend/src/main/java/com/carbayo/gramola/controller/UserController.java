@@ -2,6 +2,8 @@ package com.carbayo.gramola.controller;
 
 
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -29,21 +31,30 @@ public class UserController {
     // ... resto de métodos (getAllUsers, getUserById, etc.)
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        try {
-            // Verifica que los campos de Spotify no vengan vacíos si son obligatorios
-            if (user.getSpotifyClientId() == null || user.getSpotifyClientSecret() == null) {
-                return ResponseEntity.badRequest().body("Faltan las credenciales de Spotify.");
-            }
+    public ResponseEntity<Void> register(@RequestBody Map<String, String> body) {
+        String bar = body.get("bar");
+        String email = body.get("email");
+        String pwd1 = body.get("pwd1");
+        String pwd2 = body.get("pwd2");
+        String clientId = body.get("clientId");
+        String clientSecret = body.get("clientSecret");
 
-            String siteURL = "http://localhost:4200"; 
-            User newUser = userService.registerUser(user, siteURL);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        // 1. Validaciones básicas
+        if (!pwd1.equals(pwd2)) {
+             // Devolvemos 406 si los datos no sirven (ej. contraseñas no coinciden) [cite: 112]
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        try {
+            // 2. Llamada al servicio
+            this.userService.register(bar, email, pwd1, clientId, clientSecret);
+            return new ResponseEntity<>(HttpStatus.OK); // 200 OK [cite: 112]
         } catch (Exception e) {
-            e.printStackTrace(); // Esto imprimirá el error real en la consola de Java
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar: " + e.getMessage());
+            // 409 si el usuario ya existe [cite: 112]
+            return new ResponseEntity<>(HttpStatus.CONFLICT); 
         }
     }
+}
 
 	/*
 	 * @GetMapping("/verify") public ResponseEntity<String>
@@ -54,4 +65,3 @@ public class UserController {
 	 */
     
     // ... deleteUser, etc.
-}
