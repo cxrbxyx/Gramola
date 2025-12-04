@@ -1,34 +1,22 @@
 package com.carbayo.gramola.controller;
-
-
-
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin; // ¡Asegúrate de importar esto!
-
-import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.carbayo.gramola.model.User;
 import com.carbayo.gramola.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*") // <--- ESTA LÍNEA ES VITAL
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
     private UserService userService;
-
-    // ... resto de métodos (getAllUsers, getUserById, etc.)
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody Map<String, String> body) {
@@ -54,8 +42,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT); 
         }
     }
-}
-
 	/*
 	 * @GetMapping("/verify") public ResponseEntity<String>
 	 * verifyUser(@Param("code") String code) { if (userService.verify(code)) {
@@ -65,3 +51,4 @@ public class UserController {
 	 */
     
     // ... deleteUser, etc.
+}

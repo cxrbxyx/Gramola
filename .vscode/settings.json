@@ -7,5 +7,7 @@
         "statusBarItem.remoteBackground": "#67c3a1",
         "statusBarItem.remoteForeground": "#15202b"
     },
-    "peacock.color": "#67c3a1"
+    "peacock.color": "#67c3a1",
+    "java.compile.nullAnalysis.mode": "disabled",
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
