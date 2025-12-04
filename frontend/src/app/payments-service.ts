@@ -5,16 +5,13 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
+export class PaymentsService {
   
-  // URL base de tu backend
+  // Ajusta el puerto si tu backend usa otro (ej. 8080)
   private apiUrl = 'http://localhost:8080/payments';
 
   constructor(private http: HttpClient) { }
 
-  // Solicita el prepago al backend. 
-  // amount: cantidad en céntimos (1000 = 10.00€)
-  // email: correo del usuario que se está registrando
   prepay(email: string, amount: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/prepay?email=${email}&amount=${amount}`);
   }
