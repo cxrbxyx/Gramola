@@ -22,7 +22,7 @@ import com.carbayo.gramola.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:4200") // <--- ESTA LÍNEA ES VITAL
+@CrossOrigin(origins = "*") // <--- ESTA LÍNEA ES VITAL
 public class UserController {
 
     @Autowired
