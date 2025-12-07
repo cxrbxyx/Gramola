@@ -1,13 +1,11 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from './register/register'; // Ajusta si se llama diferente
-import { PaymentsComponent } from './payments/payments'; // Importamos tu componente
+import { RegisterComponent } from './register/register';
+import { PaymentsComponent } from './payments/payments';
+import { Callback } from './callback/callback';
 
 export const routes: Routes = [
-    { path: 'register', component: RegisterComponent },
-    
-    // AÑADIDA: Esta ruta captura el enlace del correo
-    { path: 'verify', component: PaymentsComponent },
-    
-    { path: '', redirectTo: '/register', pathMatch: 'full' },
-    { path: '**', redirectTo: '/register' } // Redirección por defecto si la ruta falla
+  { path: '', redirectTo: '/payments', pathMatch: 'full' },
+  { path: 'payments', component: PaymentsComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'callback', component: Callback }
 ];
