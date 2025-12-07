@@ -40,15 +40,16 @@ public class UserService {
         // token
         User user = new User(email, bar, pwd, clientId, clientSecret, token);
         this.userRepository.save(user);
-        String confirmationUrl = "http://localhost:4200/verify?email=" + email + "&token=" + token;
+        String confirmationUrl = "http://localhost:4200/payments?email=" + email + "&token=" + token;
 
         // Mensaje del correo
         String mensaje = "Hola " + bar + ",\n\n" +
-                "Gracias por registrarte en Gramola.\n\n" +
-                "Por favor, confirma tu cuenta haciendo clic en el siguiente enlace:\n\n" +
-                confirmationUrl + "\n\n" +
-                "Si no has solicitado este registro, ignora este correo.\n\n" +
-                "Saludos,\nEl equipo de Gramola";
+            "Gracias por registrarte en Gramola.\n\n" +
+            "Por favor, confirma tu cuenta y completa el pago haciendo clic en el siguiente enlace:\n\n" +
+            confirmationUrl + "\n\n" +
+            "Si no has solicitado este registro, ignora este correo.\n\n" +
+            "Saludos,\nEl equipo de Gramola";
+
 
         // Enviar el correo
         try {

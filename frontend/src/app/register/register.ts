@@ -8,7 +8,7 @@ import { UserService } from '../user-service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './register.html',
-  styleUrls: ['../../styles.css'],
+  styleUrls: ['./register.css'],
 })
 export class RegisterComponent {
   bar = '';
@@ -52,6 +52,7 @@ export class RegisterComponent {
       next: (response) => {
         console.log('Respuesta exitosa:', response);
         this.registroExitoso = true;
+
       },
       error: (error) => {
         console.error('Error en registro:', error);

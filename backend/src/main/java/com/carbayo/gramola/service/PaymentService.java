@@ -1,7 +1,9 @@
 package com.carbayo.gramola.service;
 
 import com.carbayo.gramola.model.StripeTransaction;
+import com.carbayo.gramola.model.*;
 import com.carbayo.gramola.repository.StripeTransactionRepository;
+import com.carbayo.gramola.repository.UserRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -23,7 +25,18 @@ public class PaymentService {
     @Autowired
     private StripeTransactionRepository transactionRepository;
 
-    public StripeTransaction prepay(String userEmail, Long amount) throws StripeException {
+    @Autowired
+    private UserRepository userRepository;
+
+    public StripeTransaction prepay(String userEmail, String token, Long amount) throws StripeException {
+
+        // Verificar que el token es válido
+        User user = userRepository.findByToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Token inválido o expirado"));
+
+        if (!user.getEmail().equals(userEmail)) {
+            throw new IllegalArgumentException("El email no coincide con el token");
+        }
 
         // 1. Configurar parámetros del intento de pago (en céntimos)
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
@@ -41,15 +54,19 @@ public class PaymentService {
         transaction.setUserEmail(userEmail);
         transaction.setData(intent.toJson()); // Guardamos el JSON completo para referencia
 
+        // Guardar la transacción asociada al usuario
         return transactionRepository.save(transaction);
     }
 
     public void confirmPayment(String transactionId) {
-        // Aquí podríamos añadir lógica adicional, como marcar al usuario como "pagado"
-        // o "activo"
-        // Por ahora, solo verificamos que la transacción existe.
-        transactionRepository.findById(transactionId).ifPresent(t -> {
-            // Lógica de confirmación (ej. activar usuario)
+        transactionRepository.findById(transactionId).ifPresent(transaction -> {
+            String userEmail = transaction.getUserEmail();
+            User user = userRepository.findByEmail(userEmail);
+            if (user != null) {
+                user.setToken(null);
+                user.setActive(true); // Activar usuario
+                userRepository.save(user);
+            }
         });
     }
 }

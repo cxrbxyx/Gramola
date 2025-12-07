@@ -19,3 +19,15 @@
     color: #991b1b;
     border: 1px solid #f87171;
 }
+
+/* Asegúrate de que no haya estilos que fuercen flex-direction: row */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+* {
+  box-sizing: border-box;
+}

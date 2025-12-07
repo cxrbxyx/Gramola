@@ -28,6 +28,9 @@ public class User {
     @Column(name = "creation_token")
     private String token;
     
+    @Column(name = "active", nullable = false)
+    private boolean active = false;
+    
     // Constructor vacío requerido por JPA
     public User() {}
 
@@ -87,5 +90,13 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

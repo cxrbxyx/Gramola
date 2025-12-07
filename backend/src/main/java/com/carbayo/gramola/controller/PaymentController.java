@@ -16,15 +16,19 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping("/prepay")
-    public StripeTransaction prepay(@RequestParam String email, @RequestParam Long amount) {
+    public StripeTransaction prepay(
+            @RequestParam String email,
+            @RequestParam String token,
+            @RequestParam Long amount) {
         try {
-            // Iniciamos el prepago por la cantidad indicada (ej. 1000 céntimos = 10€ para el registro)
-            return this.paymentService.prepay(email, amount);
+            return this.paymentService.prepay(email, token, amount);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error en el prepago: " + e.getMessage());
         }
     }
-    
+
     @PostMapping("/confirm")
     public void confirm(@RequestBody String transactionId) {
         this.paymentService.confirmPayment(transactionId);

@@ -12,8 +12,8 @@ export class PaymentsService {
 
   constructor(private http: HttpClient) { }
 
-  prepay(email: string, amount: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/prepay?email=${email}&amount=${amount}`);
+  prepay(email: string, token: string, amount: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/prepay?email=${email}&token=${token}&amount=${amount}`);
   }
 
   confirm(transactionId: string): Observable<void> {

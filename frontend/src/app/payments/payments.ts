@@ -34,8 +34,6 @@ export class PaymentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // LEER PARÁMETROS DE LA URL:
-    // El enlace es: /verify?email=...&token=...
     this.route.queryParams.subscribe(params => {
       this.email = params['email'];
       this.token = params['token'];
@@ -43,7 +41,6 @@ export class PaymentsComponent implements OnInit {
       console.log('Datos recibidos:', this.email, this.token);
 
       if (this.email && this.token) {
-        // Si tenemos los datos, iniciamos la configuración de Stripe
         this.setupStripe();
       } else {
         this.message = "Enlace inválido. Faltan datos de verificación.";
@@ -86,21 +83,20 @@ export class PaymentsComponent implements OnInit {
     this.isProcessing = true;
     this.message = "Iniciando transacción...";
 
-    // Asumiendo que tienes este método en tu servicio
-    this.paymentsService.prepay(this.email, this.amount).subscribe({
+    // Enviar token junto con email y amount
+    this.paymentsService.prepay(this.email, this.token, this.amount).subscribe({
       next: (response) => {
-        // Guardamos la respuesta (StripeTransaction)
         this.transactionDetails = response;
-        
-        // Extraemos el client_secret del JSON que viene en 'data'
         const stripeData = JSON.parse(this.transactionDetails.data);
-        
-        // 2. Confirmar con Stripe
         this.confirmarPagoConStripe(stripeData.client_secret);
       },
       error: (err) => {
         this.isProcessing = false;
-        this.message = "Error al contactar con el servidor: " + err.message;
+        if (err.status === 401) {
+          this.message = "Token inválido o expirado. Por favor, solicita un nuevo enlace de registro.";
+        } else {
+          this.message = "Error al contactar con el servidor: " + err.message;
+        }
       }
     });
   }
