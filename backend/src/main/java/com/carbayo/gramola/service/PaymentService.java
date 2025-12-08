@@ -1,6 +1,5 @@
 package com.carbayo.gramola.service;
 
-import com.carbayo.gramola.model.StripeTransaction;
 import com.carbayo.gramola.model.*;
 import com.carbayo.gramola.repository.StripeTransactionRepository;
 import com.carbayo.gramola.repository.UserRepository;
@@ -16,7 +15,7 @@ public class PaymentService {
 
     // API Key de prueba de Stripe (según documentación de la práctica)
     static {
-        Stripe.apiKey = "";
+        Stripe.apiKey = ""; //PaymentsService
         // NOTA: Usa tu propia Secret Key de Stripe si tienes una cuenta creada, sino
         // esta es un placeholder.
         // En un entorno real, esto iría en application.properties.
